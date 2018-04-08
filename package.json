@@ -1,11 +1,12 @@
 {
   "name": "liri-node-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Language Interpretation and Recognition Interface",
   "main": "index.js",
   "dependencies": {
     "dotenv": "^5.0.1",
-    "node-spotify-api": "^1.0.7",
+    "request": "^2.85.0",
+    "spotify": "^0.3.0",
     "twitter": "^1.7.1"
   },
   "devDependencies": {},
@@ -17,7 +18,7 @@
     "url": "git+https://github.com/patrickeast/liri-node-app.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Patrick East",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/patrickeast/liri-node-app/issues"
