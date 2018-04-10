@@ -1,6 +1,6 @@
 require("dotenv").config();
+const fs = require("fs");
 const keys = require("./keys.js");
-
 const request = require("request");
 const Twitter = require("twitter");
 const Spotify = require('node-spotify-api');
@@ -24,7 +24,13 @@ switch (userInput) {
         break;
 
     case "movie-this":
-        movieThis();
+        if (process.argv[3] === undefined) {
+            let movieName = "Mr. Nobody";
+            movieThis(movieName);
+        } else {
+            let movieName = process.argv.slice(3).join(' ');
+            movieThis(movieName);
+        }
         break;
 
     case "do-what-it-says":
@@ -32,7 +38,7 @@ switch (userInput) {
         break;
 
     default:
-}
+};
 
 function myTweets() {
     const params = { screen_name: "EastPatrick", count: "20" };
@@ -53,7 +59,8 @@ function myTweets() {
 function spotifyThis(songName) {
     spotify.search({
         type: 'track',
-        query: songName
+        query: songName,
+        limit: 1
     }, function (err, data) {
         if (!err) {
             data.tracks.items.forEach(function (object) {
@@ -69,4 +76,43 @@ function spotifyThis(songName) {
         }
 
     })
-}
+};
+
+function movieThis(movieName) {
+    const queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+
+    request(queryUrl, function (err, response, body) {
+        if (!err) {
+            let movieObject = JSON.parse(response.body);
+            console.log("----------------------------")
+            console.log("Title: " + movieObject.Title);
+            console.log("Released: " + movieObject.Year);
+            console.log("Rating (IMDB): " + movieObject.Ratings[0].Value);
+            console.log("Rating (Rotten Tomatoes): " + movieObject.Ratings[1].Value);
+            console.log("Country of Origin: " + movieObject.Country);
+            console.log("Language: " + movieObject.Language);
+            console.log("Plot: " + movieObject.Plot);
+            console.log("Actors: " + movieObject.Actors);
+            console.log("----------------------------")
+
+        } else {
+            console.log(err);
+        }
+    });
+};
+
+function doWhatItSays() {
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        if (err) {
+            return console.log(err)
+        }
+
+        const dataArr = data.split(",");
+        const userCommand = dataArr[0];
+        const userInput = dataArr[1];
+
+        console.log(dataArr[0]);
+        console.log(dataArr[1]);
+        
+    })
+};
