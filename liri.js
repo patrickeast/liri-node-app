@@ -110,9 +110,7 @@ function doWhatItSays() {
         const dataArr = data.split(",");
         const userCommand = dataArr[0];
         const userInput = dataArr[1];
-
-        console.log(dataArr[0]);
-        console.log(dataArr[1]);
+        console.log(spotifyThis(dataArr[1]));
         
     })
 };
