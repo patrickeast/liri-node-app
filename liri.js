@@ -49,6 +49,16 @@ function myTweets() {
                 console.log(tweets[i].created_at);
                 console.log(tweets[i].text);
                 console.log("------------------------------");
+
+                fs.appendFile("log.txt", "\n--------------------\n" + 
+                tweets[i].created_at + "\n" +
+                tweets[i].text + "\n", function(err) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log("Query added to log.txt");
+                    }
+                });
             };
         } else {
             console.log(error);
@@ -70,6 +80,18 @@ function spotifyThis(songName) {
                 console.log("Preview on Spotify: " + object.preview_url);
                 console.log("Album Name: " + object.album.name);
                 console.log("------------------------");
+
+                fs.appendFile("log.txt", "\n--------------------\n" + 
+                object.album.artists[0].name + "\n" +
+                object.name + "\n" +
+                object.preview_url + "\n" +
+                object.album.name + "\n", function(err) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log("Query added to log.txt");
+                    }
+                });
             })
         } else {
             return console.log('Error occurred: ' + err);
@@ -84,6 +106,7 @@ function movieThis(movieName) {
     request(queryUrl, function (err, response, body) {
         if (!err) {
             let movieObject = JSON.parse(response.body);
+
             console.log("----------------------------")
             console.log("Title: " + movieObject.Title);
             console.log("Released: " + movieObject.Year);
@@ -94,6 +117,23 @@ function movieThis(movieName) {
             console.log("Plot: " + movieObject.Plot);
             console.log("Actors: " + movieObject.Actors);
             console.log("----------------------------")
+
+
+            fs.appendFile("log.txt", "\n--------------------\n" + 
+                movieObject.Title + "\n" +
+                movieObject.Year + "\n" +
+                movieObject.Ratings[0].Value + "\n" +
+                movieObject.Ratings[1].Value + "\n" +
+                movieObject.Country + "\n" +
+                movieObject.Language + "\n" +
+                movieObject.Plot + "\n" +
+                movieObject.Actors + "\n", function(err) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log("Query added to log.txt");
+                    }
+                });
 
         } else {
             console.log(err);
@@ -111,6 +151,6 @@ function doWhatItSays() {
         const userCommand = dataArr[0];
         const userInput = dataArr[1];
         console.log(spotifyThis(dataArr[1]));
-        
+
     })
 };
